@@ -1,21 +1,23 @@
 package accounts.client;
 
-import common.money.Percentage;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.Random;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import common.money.Percentage;
 import rewards.internal.account.Account;
 import rewards.internal.account.Beneficiary;
-
-import java.net.URI;
-import java.util.Random;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(JUnitPlatform.class)
 public class AccountClientTests {
@@ -29,13 +31,13 @@ public class AccountClientTests {
 	private Random random = new Random();
 	
 	@Test
-	@Disabled
+	
 	public void listAccounts() {
 		//	TODO 03: Remove the @Disabled on this test method.
 		//	Use the restTemplate to retrieve an array containing all Account instances.
 		//  Use BASE_URL to help define the URL you need: BASE_URL + "/..."
 		//	Run the test and ensure that it passes.
-		Account[] accounts = null; // Modify this line to use the restTemplate
+		Account[] accounts = restTemplate.getForEntity(BASE_URL+"/accounts", Account [].class).getBody(); // Modify this line to use the restTemplate
 		
 		assertNotNull(accounts);
 		assertTrue(accounts.length >= 21);
@@ -45,12 +47,11 @@ public class AccountClientTests {
 	}
 	
 	@Test
-	@Disabled
 	public void getAccount() {
 		//	TODO 05: Remove the @Disabled on this test method.
 		//	Use the restTemplate to retrieve the Account with id 0 using a URI template
 		//	Run the test and ensure that it passes.
-		Account account = null; // Modify this line to use the restTemplate
+		Account account = restTemplate.getForEntity(BASE_URL+"/accounts/0", Account.class).getBody();; // Modify this line to use the restTemplate
 		
 		assertNotNull(account);
 		assertEquals("Keith and Keri Donald", account.getName());
@@ -59,7 +60,7 @@ public class AccountClientTests {
 	}
 	
 	@Test
-	@Disabled
+	//@Disabled
 	public void createAccount() {
 		// use a unique number to avoid conflicts
 		String number = String.format("12345%4d", random.nextInt(10000));
@@ -71,7 +72,7 @@ public class AccountClientTests {
 		//  The `RestTemplate` has two methods for this.
 		//  Use the one that returns the location of the newly created
 		//  resource and assign that to a variable.
-		URI newAccountLocation = null; // Modify this line to use the restTemplate
+		//URI newAccountLocation = restTemplate.exchange(new ResponseEntity(account, HttpStatus.CREATED), null); // Modify this line to use the restTemplate
 
 		//	TODO 09: Retrieve the Account you just created from the location that was returned.
 		//	Run this test.  Whether it passes or not, proceed with the next step.

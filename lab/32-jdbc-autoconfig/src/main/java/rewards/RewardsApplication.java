@@ -2,7 +2,12 @@ package rewards;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 // TODO-01 : Open pom.xml or build.gradle, look for TO-DO-01
 
@@ -23,6 +28,7 @@ import org.springframework.boot.SpringApplication;
 
 // TODO-14 : Look in application.properties for the next step.
 
+@SpringBootApplication(scanBasePackages= {"config"}/*,exclude= {DataSourceAutoConfiguration.class}*/)
 public class RewardsApplication {
 	static final String SQL = "SELECT count(*) FROM T_ACCOUNT";
 	
@@ -33,6 +39,26 @@ public class RewardsApplication {
 		SpringApplication.run(RewardsApplication.class, args);
 	}
 
+    @Component
+    public class SpringApplicationRunner implements CommandLineRunner {
+    	
+    	JdbcTemplate jdbcTemplate;
+		
+		public static final String QUERY = "SELECT count(*) FROM T_ACCOUNT";
+		
+		
+		public SpringApplicationRunner(JdbcTemplate jdbcTemplate) {
+			this.jdbcTemplate = jdbcTemplate;
+		}
+		@Override
+		public void run(String... args) throws Exception {
+			// TODO Auto-generated method stub
+			 System.out.println("Hello, there are "
+	                   + jdbcTemplate.queryForObject(QUERY, Long.class)
+	                   + " accounts");
+		}
+    	
+    }
     // TODO-05 : Move the SQL scripts from the
     //             `src/test/resources/rewards/testdb` to the
     //             `src/main/resources/`

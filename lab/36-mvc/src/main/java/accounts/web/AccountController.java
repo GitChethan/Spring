@@ -2,7 +2,13 @@ package accounts.web;
 
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import accounts.AccountManager;
 import rewards.internal.account.Account;
@@ -22,6 +28,7 @@ import rewards.internal.account.Beneficiary;
  */
 // TODO-03: Add the annotation for Spring MVC to recognize this class
 // as a REST controller.
+@RestController
 public class AccountController {
 
 	private final AccountManager accountManager;
@@ -43,19 +50,25 @@ public class AccountController {
 	 *            the "implicit" model created by Spring MVC
 	 */
 	// TODO-04: Add the mapping for /accounts
+	@GetMapping("/accounts")
 	public List<Account> accountList() {
 
 		// TODO-05: Implement the logic to find and return all accounts
 		// - Save the changes, wait for the application to restart
 		// - From the home page, click the link - this should now work
 		// - If you prefer, access http://localhost:8080/accounts using curl or Postman
-
-		return null; // REPLACE THIS LINE to return a list accounts
+		
+		return accountManager.getAllAccounts(); // REPLACE THIS LINE to return a list accounts
 		
 		// TODO-06: We are about to make lots of changes, so stop the application
 		//          otherwise Devtools will keep restarting it. 
 	}
 
+	@GetMapping("/accounts/{entityId}")
+	public Account accountById(@PathVariable("entityId") long entityId) {
+		
+		return accountManager.getAccount(entityId);
+	}
 	// TODO-09: Implement the /accounts/{entityId} request handling method.
 	// 1. Call the method accountDetails().
 	// 2. Annotate to define URL mapping /accounts/{entityId} this method will

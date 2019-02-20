@@ -34,7 +34,6 @@ public class AccountControllerTests {
 	// Strictly speaking we should have tested the Controller before we ran the
 	// application.
 	@Test
-	@Disabled
 	public void testHandleListRequest() {
 		List<Account> accounts = controller.accountList();
 

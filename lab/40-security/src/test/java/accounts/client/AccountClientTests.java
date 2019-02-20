@@ -11,6 +11,7 @@ import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
@@ -121,6 +122,7 @@ public class AccountClientTests {
 	}
 
 	@Test
+	@Disabled
 	public void listAccounts() {
 		String url = BASE_URL + "/accounts";
 
@@ -138,6 +140,7 @@ public class AccountClientTests {
 	}
 
 	@Test
+	@Disabled
 	public void getAccount() {
 		String url = BASE_URL + "/accounts/{accountId}";
 		Account account = restTemplate.getForObject(url, Account.class, 0);
@@ -147,6 +150,7 @@ public class AccountClientTests {
 	}
 
 	@Test
+	@Disabled
 	public void createAccount() throws URISyntaxException {
 		String url = BASE_URL + "/accounts";
 		// use a unique number to avoid conflicts
@@ -166,6 +170,7 @@ public class AccountClientTests {
 	}
 
 	@Test
+	@Disabled
 	public void addAndDeleteBeneficiary() {
 		// perform both add and delete to avoid issues with side effects
 		String addUrl = BASE_URL + "/accounts/{accountId}/beneficiaries";

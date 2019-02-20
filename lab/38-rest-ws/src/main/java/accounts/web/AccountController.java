@@ -67,7 +67,8 @@ public class AccountController {
 	// TODO 06: Complete this method. Add annotations to:
 	//  a. Respond to POST /accounts requests
     //  b. Automatically get an unmarshaled Account from the request
-	public ResponseEntity<Void> createAccount(Account newAccount) {
+	@PostMapping("/accounts/")
+	public ResponseEntity<Void> createAccount(@RequestBody Account newAccount) {
 		// Saving the account also sets its entity Id
 		Account account = accountManager.save(newAccount);
 

@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 
 import config.Constants;
@@ -37,6 +38,7 @@ import config.Constants;
  * annotation to this class
  */
 @SpringBootApplication
+@EnableAuthorizationServer
 @SuppressWarnings("deprecation")
 @EnableAutoConfiguration(exclude = { JpaRepositoriesAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
 public class AuthorizationServer {
@@ -66,7 +68,7 @@ public class AuthorizationServer {
 	 * @return
 	 */
 	// TODO-09: Make this bean active - uncomment @Bean
-	// @Bean
+	 @Bean
 	AuthorizationServerConfigurer authServerConfig() {
 		return new AuthorizationServerConfigurerAdapter() {
 			/**
@@ -76,7 +78,7 @@ public class AuthorizationServer {
 			public void configure(AuthorizationServerSecurityConfigurer security) {
 				// TODO-10: Check token access - must have trusted client authority
 				// You can use ROLE_TRUSTED_CLIENT above.
-				security.checkTokenAccess("TODO-10 - replace this string");
+				security.checkTokenAccess("hasAuthority('" + ROLE_TRUSTED_CLIENT + "')");
 			}
 
 			/**
@@ -102,14 +104,15 @@ public class AuthorizationServer {
 
 				clients.inMemory() //
 						.withClient(Constants.ACCOUNT_SERVER) // Resource Server username
-						.secret("???")               // Set password
-						.authorizedGrantTypes("???") // = CLIENT_CREDENTIALS
-						.authorities("...")          // Has ROLE_TRUSTED_CLIENT
+						.secret("secret")               // Set password
+						.authorizedGrantTypes("CLIENT_CREDENTIALS") // = CLIENT_CREDENTIALS
+						.authorities(ROLE_TRUSTED_CLIENT)          // Has ROLE_TRUSTED_CLIENT
 						// Add configuration here
 					.and() //
 						.withClient(Constants.ACCOUNT_TESTER_CLIENT) // Client username
-						// Add configuration here
-						;
+						.secret("secret")//
+						.authorizedGrantTypes(CLIENT_CREDENTIALS) //
+						.scopes(ACCOUNT_READ, ACCOUNT_WRITE);
 				
 				// TODO-16b: If you configured this properly, the ACCOUNT_TESTER_CLIENT
 				//           should have scopes ACCOUNT_READ and ACCOUNT_WRITE.

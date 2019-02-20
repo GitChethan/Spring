@@ -44,7 +44,7 @@ public class AuthorizationServerTests {
 	 * output helps you fix the server
 	 */
 	@Test
-	@Disabled
+	//@Disabled
 	public void canGetToken() {
 		String token = getToken();
 		Assert.assertNotNull(token);
@@ -100,7 +100,7 @@ public class AuthorizationServerTests {
 		// - Authorization: Basic YWNjb3VudC1zZXJ2ZXI6c2VjcmV0
 		// - Content-Type: application/x-www-form-urlencoded;charset=UTF-8
 
-		RequestEntity<String> request = //
+		RequestEntity<String> request = 
 				RequestEntity.post(toURI(AUTH_SERVER + "/oauth/token"))
 						.header(AUTHORIZATION_HEADER_PROPERTY_NAME, CLIENT_AUTH) //
 						.header(ACCEPT_HEADER_PROPERTY_NAME, APPLICATION_JSON_MINE_TYPES)

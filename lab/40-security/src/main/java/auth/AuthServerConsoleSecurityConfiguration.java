@@ -1,7 +1,9 @@
 package auth;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
@@ -13,8 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * {@link AuthorizationServer}.
  */
 // TODO-04: Enable this configuration by removing both the // comment characters
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class AuthServerConsoleSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	public static final String ADMIN_USER = "admin";
@@ -27,6 +29,7 @@ public class AuthServerConsoleSecurityConfiguration extends WebSecurityConfigure
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// TODO-05: Add an in-memory user-details service configurer and
+		auth.inMemoryAuthentication().withUser("admin").password("admin").roles(ADMIN_ROLE);
 		// setup a single user using the ADMIN_??? constants above.
 	}
 
